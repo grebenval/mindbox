@@ -84,9 +84,9 @@ namespace Mindbox.Database.Sqlite.XUnitTest
             }
 
             // Тест на NULL
-            using (DataSqliteInMemoryMode dataSqliteInMemoryMode = new DataSqliteInMemoryMode(databaseConnect))
             {
-                DataSqlite dataSqlite = (DataSqlite)dataSqliteInMemoryMode;
+                DataSqliteInMemoryEntity dataSqliteInMemoryEntity = new DataSqliteInMemoryEntity(databaseConnect);
+                DataSqlite dataSqlite = (DataSqlite)dataSqliteInMemoryEntity;
 
                 // Вставляем с NULL
                 var result2 = await dataSqlite.FigureInsert(2, 0.3d, null);
@@ -98,9 +98,9 @@ namespace Mindbox.Database.Sqlite.XUnitTest
             }
 
             // Тест на empty
-            using (DataSqliteInMemoryMode dataSqliteInMemoryMode = new DataSqliteInMemoryMode(databaseConnect))
             {
-                DataSqlite dataSqlite = (DataSqlite)dataSqliteInMemoryMode;
+                DataSqliteInMemoryEntity dataSqliteInMemoryEntity = new DataSqliteInMemoryEntity(databaseConnect);
+                DataSqlite dataSqlite = (DataSqlite)dataSqliteInMemoryEntity;
 
                 // Вставляем с NULL
                 var result2 = await dataSqlite.FigureInsert(2, 0.3d, Array.Empty<double>());
