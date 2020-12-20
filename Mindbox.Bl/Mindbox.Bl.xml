@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Mindbox.Bl</name>
+    </assembly>
+    <members>
+        <member name="T:Mindbox.Bl.Bl.IFigureManipulation">
+            <summary>
+            Интерфейс взаимодействия с БД хранящих фигуры
+            </summary>
+        </member>
+        <member name="M:Mindbox.Bl.Bl.IFigureManipulation.FigureInsert(System.Int32,System.Double,System.Double[])">
+            <summary>
+            Добавляет фигуру в БД
+            </summary>
+            <param name="figuretype">Тип фигуры</param>
+            <param name="area">Площадь фигуры</param>
+            <param name="array">Массив параметров фигуры</param>
+            <returns>ID - добавленной фигуры</returns>
+        </member>
+        <member name="M:Mindbox.Bl.Bl.IFigureManipulation.FigureGet(System.Int64)">
+            <summary>
+            Получает площадь фигуры из БД
+            </summary>
+            <param name="id"></param>
+            <returns>успех/неудача,значение,сообщение об ошибке</returns>
+        </member>
+        <member name="T:Mindbox.Bl.DatabaseConnect">
+            <summary>
+            Соединение с БД
+            </summary>
+        </member>
+        <member name="F:Mindbox.Bl.DatabaseConnect._connectionString">
+            <summary>
+            Строка соединения
+            </summary>
+        </member>
+        <member name="M:Mindbox.Bl.DatabaseConnect.#ctor(System.String)">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="connectionString"> Строка соединения</param>
+        </member>
+        <member name="M:Mindbox.Bl.DatabaseConnect.GetConnectionString">
+            <summary>
+            Возвращает строку соединения
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Mindbox.Bl.DataModels.FigureCircle">
+            <summary>
+            Круг
+            </summary>
+        </member>
+        <member name="M:Mindbox.Bl.DataModels.FigureCircle.GetArea">
+            <summary>
+            Возвращает площадь фигуры
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Mindbox.Bl.DataModels.FigureCircle.#ctor(System.Double)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="F:Mindbox.Bl.DataModels.FigureCircle._maxValue">
+            <summary>
+            Максимальное значение для радиуса
+            </summary>
+        </member>
+        <member name="M:Mindbox.Bl.DataModels.FigureCircle.Validate(System.Double[])">
+            <summary>
+            Валидация входных данных для круга
+            </summary>
+            <param name="figureInputData"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Mindbox.Bl.DataModels.FigureCreate">
+            <summary>
+            Запрос на создание фигуры
+            </summary>
+        </member>
+        <member name="P:Mindbox.Bl.DataModels.FigureCreate.FigureType">
+            <summary>
+            Тип фигуры
+            1 - круг
+            2 - треугольник
+            </summary>
+        </member>
+        <member name="P:Mindbox.Bl.DataModels.FigureCreate.FigureInputData">
+            <summary>
+            Входные данные фигуры
+            </summary>
+        </member>
+        <member name="F:Mindbox.Bl.DataModels.FigureCreate._validatorsFigures">
+            <summary>
+            Массив валидаторов для фигур
+            </summary>
+        </member>
+        <member name="M:Mindbox.Bl.DataModels.FigureCreate.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            Валидация входного массива данных
+            </summary>
+            <param name="validationContext"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Mindbox.Bl.DataModels.FigureCreate.Create">
+            <summary>
+            Создает фигуру согласно входным данным
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Mindbox.Bl.DataModels.FigureTriangle">
+            <summary>
+            Треугольник
+            </summary>
+        </member>
+        <member name="M:Mindbox.Bl.DataModels.FigureTriangle.GetArea">
+            <summary>
+            Возвращает площадь фигуры
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="F:Mindbox.Bl.DataModels.FigureTriangle._a">
+            <summary>
+            Сторона треугольника
+            </summary>
+        </member>
+        <member name="F:Mindbox.Bl.DataModels.FigureTriangle._b">
+            <summary>
+            Сторона треугольника
+            </summary>
+        </member>
+        <member name="F:Mindbox.Bl.DataModels.FigureTriangle._c">
+            <summary>
+            Сторона треугольника
+            </summary>
+        </member>
+        <member name="M:Mindbox.Bl.DataModels.FigureTriangle.#ctor(System.Double,System.Double,System.Double)">
+            <summary>
+            Конструктор
+            </summary>
+        </member>
+        <member name="M:Mindbox.Bl.DataModels.FigureTriangle.Validate(System.Double[])">
+            <summary>
+            Валидация входных данных для круга
+            </summary>
+            <param name="figureInputData">Массив входных данных</param>
+            <returns></returns>
+        </member>
+        <member name="T:Mindbox.Bl.DataModels.IFigureInput">
+            <summary>
+            Базовый интерфейс для данных фигуры
+            </summary>
+        </member>
+        <member name="M:Mindbox.Bl.DataModels.IFigureInput.GetArea">
+            <summary>
+            Возвращает площадь фигуры
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Mindbox.Bl.IDatabaseConnect">
+            <summary>
+            Интерфейс соединения с БД
+            </summary>
+        </member>
+        <member name="M:Mindbox.Bl.IDatabaseConnect.GetConnectionString">
+            <summary>
+            Возвращает строку соединения
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MindboxApi</name>
+    </assembly>
+    <members>
+        <member name="T:MindboxApi.Controllers.FigureController">
+            <summary>
+            Операции с фигурами
+            </summary>
+        </member>
+        <member name="F:MindboxApi.Controllers.FigureController._iFigureManipulation">
+            <summary>
+            Интерфейс взаимодействия с БД хранящих фигуры
+            </summary>
+        </member>
+        <member name="M:MindboxApi.Controllers.FigureController.#ctor(Mindbox.Bl.Bl.IFigureManipulation)">
+            <summary>
+            Контролер
+            </summary>
+            <param name="iFigureManipulation">Интерфейс взаимодействия с БД хранящих фигуры</param>
+        </member>
+        <member name="M:MindboxApi.Controllers.FigureController.Insert(Mindbox.Bl.DataModels.FigureCreate)">
+            <summary>
+            Добавляет фигуру в БД
+            </summary>
+            <param name="figureCreate">Запрос на создание фигуры</param>
+            <returns></returns>
+        </member>
+        <member name="M:MindboxApi.Controllers.FigureController.GetArea(System.Int64)">
+            <summary>
+            Возвращает площадь фигуры из БД по ID
+            </summary>
+            <param name="id">id фигуры</param>
+            <returns></returns>
+        </member>
+        <member name="T:MindboxApi.Program">
+            <summary>
+            Основной класс
+            </summary>
+        </member>
+        <member name="M:MindboxApi.Program.Main(System.String[])">
+            <summary>
+            Main
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:MindboxApi.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            Стартовый метод
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="T:MindboxApi.Startup">
+            <summary>
+            Startup
+            </summary>
+        </member>
+        <member name="M:MindboxApi.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Конструктор
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:MindboxApi.Startup.Configuration">
+            <summary>
+            Конфигурация
+            </summary>
+        </member>
+        <member name="M:MindboxApi.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:MindboxApi.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+        <member name="M:MindboxApi.Startup.AddDatabaseConnect(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Добавляем интерфейс соединения с БД
+            </summary>
+            <param name="services"></param>
+        </member>
+    </members>
+</doc>
