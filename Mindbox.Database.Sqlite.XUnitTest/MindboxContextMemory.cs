@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Mindbox.Bl;
 using Mindbox.Database.Sqlite.Data;
 
 namespace Mindbox.Database.Sqlite.XUnitTest
@@ -15,7 +16,7 @@ namespace Mindbox.Database.Sqlite.XUnitTest
         {
         }
 
-        public MindboxContextMemory(DbContextOptions<MindboxContext> options) : base(options)
+        public MindboxContextMemory(DbContextOptions<MindboxContext> options, IDatabaseConnect databaseConnect) : base(options, databaseConnect)
         {
         }
 

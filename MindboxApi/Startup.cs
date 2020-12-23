@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Mindbox.Bl;
 using Mindbox.Bl.Bl;
 using Mindbox.Database.Sqlite;
+using Mindbox.Database.Sqlite.Data;
 
 namespace MindboxApi
 {
@@ -113,6 +114,8 @@ namespace MindboxApi
             string sqliteFileFull = Path.Combine(AppContext.BaseDirectory, sqliteFile);
             string connectionString = $"Data Source={sqliteFileFull}";
             services.AddSingleton<IDatabaseConnect>(new DatabaseConnect(connectionString));
+
+            services.AddDbContext<MindboxContext>();
         }
         
         

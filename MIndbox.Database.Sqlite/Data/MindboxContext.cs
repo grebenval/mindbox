@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Mindbox.Bl;
 
 #nullable disable
 
@@ -20,10 +21,10 @@ namespace Mindbox.Database.Sqlite.Data
             _connectionString = connectionString;
         }
 
-        public MindboxContext(DbContextOptions<MindboxContext> options)
+        public MindboxContext(DbContextOptions<MindboxContext> options, IDatabaseConnect databaseConnect)
             : base(options)
         {
-
+            _connectionString = databaseConnect.GetConnectionString();
         }
 
         public virtual DbSet<Circle> Circles { get; set; }

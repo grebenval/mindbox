@@ -12,27 +12,39 @@ namespace Mindbox.Database.Sqlite
 {
     public class DataSqlite : IFigureManipulation
     {
-        /// <summary>
-        /// Строка соединения
-        /// </summary>
-        protected readonly string ConnectionString;
+        ///// <summary>
+        ///// Строка соединения
+        ///// </summary>
+        //protected readonly string ConnectionString;
+
+        protected readonly MindboxContext MindboxContext;
+
+        ///// <summary>
+        ///// Конструктор
+        ///// </summary>
+        ///// <param name="databaseConnect">Интерфейс соединения с БД</param>
+        //public DataSqlite(MindboxContext mindboxContext)
+        //{
+        //    //ConnectionString = databaseConnect.GetConnectionString();
+        //}
 
         /// <summary>
         /// Конструктор
         /// </summary>
-        /// <param name="databaseConnect">Интерфейс соединения с БД</param>
-        public DataSqlite(IDatabaseConnect databaseConnect)
+        /// <param name="mindboxContext">Контекст БД</param>
+        public DataSqlite(MindboxContext mindboxContext)
         {
-            ConnectionString = databaseConnect.GetConnectionString();
+            MindboxContext = mindboxContext;
         }
-        
+
         /// <summary>
         /// Возвращает контекст
         /// </summary>
         /// <returns></returns>
         public virtual MindboxContext GetContext()
         {
-            return new MindboxContext(ConnectionString);
+            // return new MindboxContext(ConnectionString);
+            return MindboxContext;
         }
 
         /// <summary>

@@ -15,13 +15,14 @@ namespace Mindbox.Database.Sqlite.XUnitTest
         public void TestConstructor()
         {
             IDatabaseConnect databaseConnect = new DatabaseConnect(nameof(TestConstructor));
-
+            MindboxContext mindboxContext = new MindboxContext(databaseConnect.GetConnectionString());
+            
             // В конструкторе инициализируется строка подключения, проверяем
-            DataSqlite dataSqlite = new DataSqlite(databaseConnect);
-            var fieldInfo = typeof(DataSqlite).GetField(@"ConnectionString", BindingFlags.Instance | BindingFlags.NonPublic);
+            DataSqlite dataSqlite = new DataSqlite(mindboxContext);
+            var fieldInfo = typeof(DataSqlite).GetField(@"MindboxContext", BindingFlags.Instance | BindingFlags.NonPublic);
             var value = fieldInfo.GetValue(dataSqlite);
-            string connectionString = (string)value;
-            Assert.Equal(nameof(TestConstructor), connectionString);
+            MindboxContext mindboxContext1 = (MindboxContext)value;
+            Assert.Equal(mindboxContext, mindboxContext1);
         }
 
         [Fact]
@@ -37,8 +38,8 @@ namespace Mindbox.Database.Sqlite.XUnitTest
 
             // Вставка круга
             {
-                DataSqliteInMemoryEntity dataSqliteInMemoryEntity = new DataSqliteInMemoryEntity(databaseConnect);
-                DataSqlite dataSqlite = (DataSqlite)dataSqliteInMemoryEntity;
+                MindboxContextMemory mindboxContextMemory = new MindboxContextMemory(databaseConnect.GetConnectionString());
+                DataSqlite dataSqlite = new DataSqlite(mindboxContextMemory);
 
                 // Вставляем круг
                 var result1 = await dataSqlite.FigureInsert(1, 0.2d, new double[] { 1d });
@@ -60,8 +61,8 @@ namespace Mindbox.Database.Sqlite.XUnitTest
 
             // Вставка треугольника
             {
-                DataSqliteInMemoryEntity dataSqliteInMemoryEntity = new DataSqliteInMemoryEntity(databaseConnect);
-                DataSqlite dataSqlite = (DataSqlite)dataSqliteInMemoryEntity;
+                MindboxContextMemory mindboxContextMemory = new MindboxContextMemory(databaseConnect.GetConnectionString());
+                DataSqlite dataSqlite = new DataSqlite(mindboxContextMemory);
 
                 // Вставляем треугольник
                 var result1 = await dataSqlite.FigureInsert(2, 3.3d, new double[] { 1d, 3d, 3d });
@@ -85,8 +86,8 @@ namespace Mindbox.Database.Sqlite.XUnitTest
 
             // Тест на NULL
             {
-                DataSqliteInMemoryEntity dataSqliteInMemoryEntity = new DataSqliteInMemoryEntity(databaseConnect);
-                DataSqlite dataSqlite = (DataSqlite)dataSqliteInMemoryEntity;
+                MindboxContextMemory mindboxContextMemory = new MindboxContextMemory(databaseConnect.GetConnectionString());
+                DataSqlite dataSqlite = new DataSqlite(mindboxContextMemory);
 
                 // Вставляем с NULL
                 var result2 = await dataSqlite.FigureInsert(2, 0.3d, null);
@@ -99,8 +100,8 @@ namespace Mindbox.Database.Sqlite.XUnitTest
 
             // Тест на empty
             {
-                DataSqliteInMemoryEntity dataSqliteInMemoryEntity = new DataSqliteInMemoryEntity(databaseConnect);
-                DataSqlite dataSqlite = (DataSqlite)dataSqliteInMemoryEntity;
+                MindboxContextMemory mindboxContextMemory = new MindboxContextMemory(databaseConnect.GetConnectionString());
+                DataSqlite dataSqlite = new DataSqlite(mindboxContextMemory);
 
                 // Вставляем с NULL
                 var result2 = await dataSqlite.FigureInsert(2, 0.3d, Array.Empty<double>());
@@ -111,7 +112,7 @@ namespace Mindbox.Database.Sqlite.XUnitTest
             }
 
             // Ловим исключение
-            DataSqlite dataSqliteNull = new DataSqliteNullContext(databaseConnect);
+            DataSqlite dataSqliteNull = new DataSqlite(null);
             try
             {
                 var getresult1 = await dataSqliteNull.FigureInsert(1, 2d, new double[] { 1d });
@@ -141,37 +142,42 @@ namespace Mindbox.Database.Sqlite.XUnitTest
             await using (var mindboxContext = new MindboxContextMemory(databaseConnect.GetConnectionString()))
             {
                 // Вставляем первое значение
-                Figure figure1 = new Figure { Area = 0.2D };
+                Figure figure1 = new Figure {Area = 0.2D};
                 await mindboxContext.Figures.AddAsync(figure1);
                 await mindboxContext.SaveChangesAsync();
                 id1 = figure1.Id;
 
                 // Вставляем второе значение
-                Figure figure2 = new Figure { Area = 0.3D };
+                Figure figure2 = new Figure {Area = 0.3D};
                 await mindboxContext.Figures.AddAsync(figure2);
                 await mindboxContext.SaveChangesAsync();
                 id2 = figure2.Id;
             }
 
-            DataSqlite dataSqlite = new DataSqliteInMemoryEntity(databaseConnect);
+            await using (var mindboxContext = new MindboxContextMemory(databaseConnect.GetConnectionString()))
+            {
+                DataSqlite dataSqlite = new DataSqlite(mindboxContext);
 
-            // Получаем первое значение
-            var getresult1 = await dataSqlite.FigureGet(id1);
-            Assert.True(getresult1.Item1);
-            Assert.Equal(0.2d, getresult1.Item2);
-            Assert.True(string.IsNullOrEmpty(getresult1.Item3));
-
-            // Получаем второе значение
-            var getresult2 = await dataSqlite.FigureGet(id2);
-            Assert.True(getresult2.Item1);
-            Assert.Equal(0.3d, getresult2.Item2);
-            Assert.True(string.IsNullOrEmpty(getresult2.Item3));
-
+                // Получаем первое значение
+                var getresult1 = await dataSqlite.FigureGet(id1);
+                Assert.True(getresult1.Item1);
+                Assert.Equal(0.2d, getresult1.Item2);
+                Assert.True(string.IsNullOrEmpty(getresult1.Item3));
+            }
+            await using (var mindboxContext = new MindboxContextMemory(databaseConnect.GetConnectionString()))
+            {
+                DataSqlite dataSqlite = new DataSqlite(mindboxContext);
+                // Получаем второе значение
+                var getresult2 = await dataSqlite.FigureGet(id2);
+                Assert.True(getresult2.Item1);
+                Assert.Equal(0.3d, getresult2.Item2);
+                Assert.True(string.IsNullOrEmpty(getresult2.Item3));
+            }                             
             // Ловим исключение
-            DataSqlite dataSqliteNull = new DataSqliteNullContext(databaseConnect);
+            DataSqlite dataSqliteNull = new DataSqlite(null);
             try
             {
-                getresult1 = await dataSqliteNull.FigureGet(2);
+                var getresult1 = await dataSqliteNull.FigureGet(2);
                 Assert.True(false, "Не должны сюда попасть - исключение.");
             }
             catch 
@@ -186,13 +192,13 @@ namespace Mindbox.Database.Sqlite.XUnitTest
         {
             IDatabaseConnect databaseConnect = new DatabaseConnect(nameof(GetContextTest));
 
-            // В конструкторе инициализируется строка подключения, проверяем
-            DataSqlite dataSqlite = new DataSqlite(databaseConnect);
-            using (var context = dataSqlite.GetContext())
-            {
-                Assert.NotNull(context);
-                Assert.Equal(typeof(MindboxContext), context.GetType());
-            }
+            MindboxContext mindboxContext = new MindboxContext(databaseConnect.GetConnectionString());
+            
+            // В конструкторе инициализируется Контекст, проверяем
+            DataSqlite dataSqlite = new DataSqlite(mindboxContext);
+            using var context = dataSqlite.GetContext();
+            Assert.NotNull(context);
+            Assert.Equal(mindboxContext, context);
         }
 
     }
